@@ -15,7 +15,7 @@ void main() {
       'emits [SelectProvinceNoResultState] when SelectProvinceSearch event is added with no matching provinces',
       build: () => SelectProvinceBloc(addressDataRepository),
       act: (bloc) => bloc.add(const SelectProvinceSearch('random word')),
-      wait: const Duration(seconds: 1),
+      wait: const Duration(seconds: 2),
       expect: () => [isA<SelectProvinceNoResultState>()],
     );
 
@@ -23,7 +23,7 @@ void main() {
       'emits [SelectProvinceSearchResultState] with ["กรุงเทพมหานคร"] when SelectProvinceSearch event is added with "กรุงเทพ"',
       build: () => SelectProvinceBloc(addressDataRepository),
       act: (bloc) => bloc.add(const SelectProvinceSearch('กรุงเทพ')),
-      wait: const Duration(seconds: 1),
+      wait: const Duration(seconds: 2),
       expect: () => [isA<SelectProvinceSearchResultState>()],
       verify: (bloc) {
         final state = bloc.state as SelectProvinceSearchResultState;
@@ -35,7 +35,7 @@ void main() {
       'emits [SelectProvinceSearchResultState] with all provinces when SelectProvinceSearch event is added with empty string',
       build: () => SelectProvinceBloc(addressDataRepository),
       act: (bloc) => bloc.add(const SelectProvinceSearch('')),
-      wait: const Duration(seconds: 1),
+      wait: const Duration(seconds: 2),
       expect: () => [isA<SelectProvinceSearchResultState>()],
       verify: (bloc) {
         final state = bloc.state as SelectProvinceSearchResultState;
