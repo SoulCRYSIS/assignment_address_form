@@ -131,21 +131,12 @@ query {
         link: httpLink,
       );
 
-      final getAllSubdistrictsQuery = searchWord.trim().isEmpty
-          ? """
+      final getAllSubdistrictsQuery = """
 query {
   subdistrict(amphure_id: "$districtId") {
     id
     name_th
   }
-}
-"""
-          : """
-query {
-	subdistrict(amphure_id: "$districtId", name: "$searchWord"){
-		id
-		name_th
-	}
 }
 """;
 
@@ -161,13 +152,25 @@ query {
       List<Subdistrict> subdistricts = [];
 
       data.forEach((e) {
-        subdistricts.add(
-          Subdistrict(
-            int.parse(e["id"]),
-            districtId,
-            e['name_th'],
-          ),
-        );
+        if (searchWord.trim().isNotEmpty) {
+          if (e['name_th'].contains(searchWord)) {
+            subdistricts.add(
+              Subdistrict(
+                int.parse(e["id"]),
+                districtId,
+                e['name_th'],
+              ),
+            );
+          }
+        } else {
+          subdistricts.add(
+            Subdistrict(
+              int.parse(e["id"]),
+              districtId,
+              e['name_th'],
+            ),
+          );
+        }
       });
       return subdistricts;
     } catch (e) {
